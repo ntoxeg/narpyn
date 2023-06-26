@@ -33,7 +33,7 @@ os.environ["NARS_HOME"] = os.path.dirname(os.path.abspath(__file__))
 name = "pyona"
 version = "0.1.0"
 description = "A Python API library for Open NARS for Applications (ONA)"
-authors = ["Adrian Borucki <ab@synthillect.ai>"]
+authors = [{name = "Adrian Borucki", email = "ab@synthillect.ai"}]
 license = "Apache-2.0"
 readme = "README.md"
 #dependencies = [
