@@ -38,14 +38,14 @@ artifacts = [
     "/ona/NAR",
 ]
 
-[tool.hatch.build.targets.wheel]
-pure_python = false
-
 [tool.hatch.build.targets.sdist]
 exclude = [
   "/.github",
   "/ona/misc",
 ]
+
+[tool.hatch.build.targets.wheel]
+pure_python = false
 
 [tool.hatch.build.targets.wheel.hooks.autorun]
 dependencies = ["hatch-autorun"]
