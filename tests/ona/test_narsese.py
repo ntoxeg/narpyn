@@ -69,17 +69,18 @@ def test_parse_truth_value():
 
 # Test parse_task function
 def test_parse_task():
-    assert parse_task("task1 occurrenceTime=now") == {
-        "occurrenceTime": "now",
-        "punctuation": ".",
-        "term": "task1",
+    assert parse_task("task! :|: occurrenceTime=3 Truth: f=0.7 c=0.89") == {
+        "occurrenceTime": "3",
+        "punctuation": "!",
+        "term": "task",
+        'truth': {'frequency': 0.7, 'confidence': 0.89},
     }
     assert parse_task(
-        "task2 Priority=1 occurrenceTime=eternal Truth: frequency=0.5 confidence=0.9"
+        "task! occurrenceTime=eternal Priority=1.0 Truth: f=0.5 c=0.9"
     ) == {
         "occurrenceTime": "eternal",
-        "punctuation": ".",
-        "term": "task2",
+        "punctuation": "!",
+        "term": "task",
         "truth": {"frequency": 0.5, "confidence": 0.9},
     }
 
@@ -87,16 +88,16 @@ def test_parse_task():
 # Test parse_reason function
 def test_parse_reason():
     assert parse_reason(
-        "implication: task1 occurrenceTime=eternal Truth: frequency=0.5 confidence=0.9\nprecondition: task2 occurrenceTime=now\ndecision expectation=d"
+        "implication: asdf. Truth: frequency=0.5 confidence=0.9 precondition: bls. :|: occurrenceTime=7 decision expectation=0.67"
     ) == {
-        "desire": "d",
+        "desire": "0.67",
         "hypothesis": {
             "occurrenceTime": "eternal",
             "punctuation": ".",
-            "term": "task1",
+            "term": "asdf",
             "truth": {"frequency": 0.5, "confidence": 0.9},
         },
-        "precondition": {"occurrenceTime": "now", "punctuation": ".", "term": "task2"},
+        "precondition": {"occurrenceTime": "7", "punctuation": ".", "term": "bls"},
     }
 
 

@@ -2,9 +2,7 @@
 set -ex
 
 # Build the C executable
-cd ona
-./build.sh
-cd ..
+./build_ona.sh
 
 # Build the Python package
-hatch build
+hatch -v build

@@ -27,11 +27,11 @@ detached = true
 dependencies = [
   "black>=22.10.0",
   "ruff>=0.0.166",
-#  "mypy>=0.991",
+  "mypy>=0.991",
 ]
 
 [envs.lint.scripts]
-#typing = "mypy --install-types --non-interactive {args:src/hatch_showcase tests}"
+typing = "mypy --install-types --non-interactive {args:narpyn tests}"
 style = [
   "ruff {args:.}",
   "black --check --diff {args:.}",

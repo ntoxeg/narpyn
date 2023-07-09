@@ -31,7 +31,7 @@ def get_raw_output(process: subprocess.Popen) -> list[str]:
             before.append(ret.strip())
         ret = stdout.readline()
     logger.debug("\n".join(before))
-    return before[:-1]
+    return before
 
 
 def get_output(process: subprocess.Popen) -> dict[str, Any]:
@@ -41,7 +41,7 @@ def get_output(process: subprocess.Popen) -> dict[str, Any]:
         parse_task(l.split("Input: ")[1]) for l in lines if l.startswith("Input:")
     ]
     derivations = [
-        parse_task(l.split("Derived: " if l.startswith("Derived:") else "Revised:")[1])
+        parse_task(l.split("Derived: " if l.startswith("Derived:") else "Revised: ")[1])
         for l in lines
         if l.startswith("Derived:") or l.startswith("Revised:")
     ]

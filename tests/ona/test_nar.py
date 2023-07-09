@@ -40,42 +40,42 @@ def test_get_output(mock_popen):
     mock_stdout = Mock()
     mock_popen.return_value = Mock(stdin=mock_stdin, stdout=mock_stdout)
     mock_stdout.readline.side_effect = [
-        "Input: task1 occurrenceTime=now.\n",
-        "Derived: task2 occurrenceTime=eternal.\n",
-        "Revised: task3 occurrenceTime=now.\n",
-        "Answer: task4 occurrenceTime=now.\n",
-        "^op1 args [a b c]\n",
+        "Input: task1! :|: occurrenceTime=5\n",
+        "Derived: task2! :|: occurrenceTime=5\n",
+        "Revised: sent. :|: occurrenceTime=2\n",
+        "Answer: ^op1 ({SELF} * arg)! :|: occurrenceTime=5\n",
+        "^op1 executed with args ({SELF} * arg)\n",
         "done with 0 additional inference steps.\n",
     ]
     output = get_output(mock_popen())
     assert len(output["input"]) == 1
     assert output["input"][0] == {
-        "occurrenceTime": "now",
-        "punctuation": ".",
+        "occurrenceTime": "5",
+        "punctuation": "!",
         "term": "task1",
     }
     assert len(output["derivations"]) == 2
     assert output["derivations"][0] == {
-        "occurrenceTime": "eternal",
-        "punctuation": ".",
+        "occurrenceTime": "5",
+        "punctuation": "!",
         "term": "task2",
     }
     assert output["derivations"][1] == {
-        "occurrenceTime": "now",
+        "occurrenceTime": "2",
         "punctuation": ".",
-        "term": "task3",
+        "term": "sent",
     }
     assert len(output["answers"]) == 1
     assert output["answers"][0] == {
-        "occurrenceTime": "now",
-        "punctuation": ".",
-        "term": "task4",
+        "occurrenceTime": "5",
+        "punctuation": "!",
+        "term": "^op1 ({SELF} * arg)",
     }
     assert len(output["executions"]) == 1
-    assert output["executions"][0] == {"operator": "op1", "arguments": ["a", "b", "c"]}
+    assert output["executions"][0] == {"operator": "^op1", "arguments": ["{SELF}", "arg"]}
     assert (
         output["raw"]
-        == "Input: task1 occurrenceTime=now.\nDerived: task2 occurrenceTime=eternal.\nRevised: task3 occurrenceTime=now.\nAnswer: task4 occurrenceTime=now.\n^op1 args [a b c]\ndone with 0 additional inference steps.\n"
+        == "Input: task1! :|: occurrenceTime=5\nDerived: task2! :|: occurrenceTime=5\nRevised: sent. :|: occurrenceTime=2\nAnswer: ^op1 ({SELF} * arg)! :|: occurrenceTime=5\n^op1 executed with args ({SELF} * arg)"
     )
 
 
