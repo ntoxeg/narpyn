@@ -1,10 +1,11 @@
 [tool.poetry]
 name = "narpyn"
-dynamic = ["version"]
+version = "0.1.0"
 description = "A Python API library for NARS"
 authors = ["Adrian Borucki <ab@synthillect.ai>"]
 license = "Apache-2.0"
 readme = "README.md"
+packages = [{include = "narpyn"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
