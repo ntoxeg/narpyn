@@ -1,4 +1,4 @@
-from pyona.narsese import (
+from narpyn.ona.narsese import (
     Goal,
     ext,
     loc,

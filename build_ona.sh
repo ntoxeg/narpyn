@@ -5,6 +5,3 @@ set -ex
 cd ona
 ./build.sh
 cd ..
-
-# Build the Python package
-hatch build

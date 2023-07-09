@@ -1,6 +1,6 @@
 from unittest.mock import Mock, patch
 
-from pyona.nar import (
+from narpyn.ona.nar import (
     expect_output,
     get_output,
     get_raw_output,
