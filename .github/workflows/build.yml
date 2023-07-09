@@ -90,7 +90,7 @@ jobs:
             - name: Install GCC
               uses: rlalik/setup-cpp-compiler@master
               with:
-                  compiler: gcc-8
+                  compiler: gcc-12
 
             - name: Install Hatch
               run: pip install -U hatch
@@ -113,26 +113,26 @@ jobs:
             - name: Build ONA
               run: ./build_ona.sh
             
-            - name: Build wheels
-              uses: pypa/cibuildwheel@v2.11.4
-              env:
-                  CIBW_ARCHS_MACOS: x86_64
-                  HATCH_BUILD_HOOKS_ENABLE: 'true'
+#            - name: Build wheels
+#              uses: pypa/cibuildwheel@v2.11.4
+#              env:
+#                  CIBW_ARCHS_MACOS: x86_64
+#                  HATCH_BUILD_HOOKS_ENABLE: 'true'
             
-#            - name: Build
-#              run: hatch -v build --target wheel
+            - name: Build
+              run: hatch -v build --target wheel
+
+            - uses: actions/upload-artifact@v3
+              with:
+                  name: artifacts
+                  path: dist/*.whl
+                  if-no-files-found: error
             
 #            - uses: actions/upload-artifact@v3
 #              with:
 #                  name: artifacts
-#                  path: dist/*.whl
+#                  path: wheelhouse/*.whl
 #                  if-no-files-found: error
-            
-            - uses: actions/upload-artifact@v3
-              with:
-                  name: artifacts
-                  path: wheelhouse/*.whl
-                  if-no-files-found: error
 
     pure-python-wheel-and-sdist:
         name: Build a pure Python wheel and source distribution
