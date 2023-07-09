@@ -76,7 +76,7 @@ jobs:
               run: rm -r ona/misc
 
             - name: Install GCC
-              if: matrix.job.os == "ubuntu-22.04"
+              if: matrix.job.os == 'ubuntu-22.04'
               uses: egor-tensin/setup-gcc@v1
               with:
                   version: latest
