@@ -90,7 +90,7 @@ jobs:
             - name: Install GCC
               uses: rlalik/setup-cpp-compiler@master
               with:
-                  compiler: gcc-10
+                  compiler: gcc-9
 
             - name: Install Hatch
               run: pip install -U hatch
