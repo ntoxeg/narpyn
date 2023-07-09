@@ -50,42 +50,42 @@ def parse_truth_value(tv_str: str) -> dict[str, float]:
 
 
 def parse_task(s: str) -> dict[str, Any]:
-    M: dict[str, Any] = {"occurrenceTime": "eternal"}
+    m: dict[str, Any] = {"occurrenceTime": "eternal"}
     if " :|:" in s:
-        M["occurrenceTime"] = "now"
+        m["occurrenceTime"] = "now"
         s = s.replace(" :|:", "")
         if "occurrenceTime" in s:
-            M["occurrenceTime"] = s.split("occurrenceTime=")[1].split(" ")[0]
+            m["occurrenceTime"] = s.split("occurrenceTime=")[1].split(" ")[0]
     sentence = (
         s.split(" occurrenceTime=")[0]
         if " occurrenceTime=" in s
         else s.split(" Priority=")[0]
     )
-    M["punctuation"] = sentence[-4] if ":|:" in sentence else sentence[-1]
-    M["term"] = (
+    m["punctuation"] = sentence[-4] if ":|:" in sentence else sentence[-1]
+    m["term"] = (
         sentence.split(" creationTime")[0]
         .split(" occurrenceTime")[0]
         .split(" Truth")[0][:-1]
     )
     if "Truth" in s:
-        M["truth"] = parse_truth_value(s.split("Truth: ")[1])
-    return M
+        m["truth"] = parse_truth_value(s.split("Truth: ")[1])
+    return m
 
 
 def parse_reason(sraw: str) -> Optional[dict[str, str]]:
     if "implication: " not in sraw:
         return None
-    Implication = parse_task(
+    implication = parse_task(
         sraw.split("implication: ")[-1].split("precondition: ")[0]
     )  # last reason only (others couldn't be associated currently)
-    Precondition = parse_task(sraw.split("precondition: ")[-1].split("\n")[0])
-    Implication["occurrenceTime"] = "eternal"
-    Precondition["punctuation"] = Implication["punctuation"] = "."
-    Reason = {}
-    Reason["desire"] = sraw.split("decision expectation=")[-1].split(" ")[0]
-    Reason["hypothesis"] = Implication
-    Reason["precondition"] = Precondition
-    return Reason
+    precondition = parse_task(sraw.split("precondition: ")[-1].split("\n")[0])
+    implication["occurrenceTime"] = "eternal"
+    precondition["punctuation"] = implication["punctuation"] = "."
+    reason: dict[str, Any] = {}
+    reason["desire"] = sraw.split("decision expectation=")[-1].split(" ")[0]
+    reason["hypothesis"] = implication
+    reason["precondition"] = precondition
+    return reason
 
 
 def parse_execution(e: str) -> dict[str, Any]:
