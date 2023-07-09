@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "pyona"
+name = "narpyn"
 version = "0.1.0"
-description = "A Python API library for Open NARS for Applications (ONA)"
+description = "A Python API library for NARS"
 authors = ["Adrian Borucki <ab@synthillect.ai>"]
 license = "Apache-2.0"
 readme = "README.md"
@@ -14,14 +14,33 @@ black = "^23.3.0"
 ruff = "^0.0.270"
 pytest = "^7.3.1"
 
+[project]
+name = "narpyn"
+version = "0.1.0"
+description = "A Python API library for NARS"
+authors = [{name = "Adrian Borucki", email = "ab@synthillect.ai"}]
+license = "Apache-2.0"
+readme = "README.md"
+requires-python = ">=3.10"
+
 [build-system]
-#requires = ["setuptools", "wheel"]
-#build-backend = "setuptools.build_meta"
-requires = ["hatchling"]
+requires = ["hatchling>=1.17.0"]
 build-backend = "hatchling.build"
+
+[tool.hatch.build]
+artifacts = [
+    "*.so",
+    "*.dll",
+    "/ona/NAR",
+]
 
 [tool.hatch.build.targets.wheel]
 pure_python = false
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/.github",
+]
 
 [tool.hatch.build.targets.wheel.hooks.autorun]
 dependencies = ["hatch-autorun"]
@@ -29,13 +48,35 @@ code = """
 os.environ["NARS_HOME"] = os.path.dirname(os.path.abspath(__file__))
 """
 
-[project]
-name = "pyona"
-version = "0.1.0"
-description = "A Python API library for Open NARS for Applications (ONA)"
-authors = [{name = "Adrian Borucki", email = "ab@synthillect.ai"}]
-license = "Apache-2.0"
-readme = "README.md"
-#dependencies = [
-#    "requests",
-#]
+[tool.hatch.build.targets.wheel.hooks.mypyc]
+enable-by-default = false
+dependencies = ["hatch-mypyc>=0.14.1"]
+require-runtime-dependencies = true
+mypy-args = [
+  "--no-warn-unused-ignores",
+]
+#[tool.hatch.build.targets.wheel.hooks.custom]
+#path = "hatch_build.py"
+#ona_dir = "ona"
+
+[tool.ruff.isort]
+known-first-party = ["narpyn"]
+
+[terminal.styles]
+spinner = "dots"
+
+[tool.coverage.run]
+source_pkgs = ["narpyn", "tests"]
+branch = true
+parallel = true
+
+[tool.coverage.paths]
+narpyn = ["narpyn", "*/narpyn/narpyn"]
+tests = ["tests", "*/narpyn/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
