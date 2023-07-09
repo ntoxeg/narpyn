@@ -26,7 +26,7 @@ env:
     CIBW_TEST_COMMAND: >
         python -c
         "from narpyn.ona.narsese import loc;
-        assert loc((3, 5)) == "loc_x3_y5"
+        assert loc((3, 5)) == 'loc_x3_y5'
         "
     CIBW_SKIP: >
         pp*
