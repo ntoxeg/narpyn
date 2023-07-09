@@ -103,10 +103,10 @@ def test_parse_reason():
 
 # Test parse_execution function
 def test_parse_execution():
-    assert parse_execution("op") == {"operator": "op", "arguments": []}
-    assert parse_execution("op args [a * b * c]") == {
-        "operator": "op",
-        "arguments": ["a", "b", "c"],
+    assert parse_execution("^op1 executed") == {"operator": "^op1", "arguments": []}
+    assert parse_execution("^op2 executed with args ({SELF} * arg * x)") == {
+        "operator": "^op2",
+        "arguments": ["{SELF}", "arg", "x"],
     }
 
 

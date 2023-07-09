@@ -95,16 +95,6 @@ jobs:
 #            - name: Install Hatch
 #              run: pip install -U hatch
 
-            - name: Set up cross compiling
-              if: matrix.job.cross
-              uses: taiki-e/install-action@v2
-              with:
-                  tool: cross
-
-            - name: Configure cross compiling
-              if: matrix.job.cross
-              run: echo "CARGO=cross" >> $GITHUB_ENV
-
 #            - name: Show toolchain information
 #              run: |-
 #                  gcc --version

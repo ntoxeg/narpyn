@@ -89,12 +89,13 @@ def parse_reason(sraw: str) -> Optional[dict[str, str]]:
 
 
 def parse_execution(e: str) -> dict[str, Any]:
-    splits = e.split(" ")
-    if "args " not in e:
-        return {"operator": splits[0], "arguments": []}
+    op = e.split(" ")[0]
+    argstr = e.split("args ")[1] if "args " in e else None
+    if argstr is None:
+        return {"operator": op, "arguments": []}
     return {
-        "operator": splits[0],
-        "arguments": e.split("args ")[1][1:-1].split(" * "),
+        "operator": op,
+        "arguments": argstr[1:-1].split(" * ") if "*" in argstr else [argstr],
     }
 
 
