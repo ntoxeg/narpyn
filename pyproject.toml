@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "narpyn"
-version = "0.1.0"
+dynamic = ["version"]
 description = "A Python API library for NARS"
 authors = ["Adrian Borucki <ab@synthillect.ai>"]
 license = "Apache-2.0"
@@ -17,6 +17,7 @@ ipython = "^8.14.0"
 
 [project]
 name = "narpyn"
+dynamic = ["version"]
 description = "A Python API library for NARS"
 authors = [{name = "Adrian Borucki", email = "ab@synthillect.ai"}]
 license = "Apache-2.0"

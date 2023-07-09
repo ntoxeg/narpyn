@@ -80,12 +80,17 @@ jobs:
             - name: Remove ONA miscellaneous
               run: rm ona/*.py && rm -r ona/misc
 
+#            - name: Install GCC
+#              if: matrix.job.os == 'ubuntu-22.04'
+#              uses: egor-tensin/setup-gcc@v1
+#              with:
+#                  version: latest
+#                  platform: ${{ startsWith(matrix.job.target, 'x86_64-') && 'x64' || startsWith(matrix.job.target, 'aarch64-') && 'aarch64' || 'x86' }}
+
             - name: Install GCC
-              if: matrix.job.os == 'ubuntu-22.04'
-              uses: egor-tensin/setup-gcc@v1
+              uses: rlalik/setup-cpp-compiler@master
               with:
-                  version: latest
-                  platform: ${{ startsWith(matrix.job.target, 'x86_64-') && 'x64' || startsWith(matrix.job.target, 'aarch64-') && 'aarch64' || 'x86' }}
+                  compiler: gcc-12
 
             - name: Install Hatch
               run: pip install -U hatch
