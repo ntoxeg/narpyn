@@ -33,8 +33,8 @@ env:
 
 jobs:
     binary-wheels-standard:
-        name: Binary wheels for ${{ startsWith(matrix.os, 'macos-') && 'macOS' || startsWith(matrix.os, 'windows-') && 'Windows' || 'Linux' }}
-        runs-on: ${{ matrix.os }}
+        name: Binary wheels for ${{ startsWith(matrix.job.os, 'macos-') && 'macOS' || startsWith(matrix.job.os, 'windows-') && 'Windows' || 'Linux' }}
+        runs-on: ${{ matrix.job.os }}
         strategy:
             fail-fast: false
             matrix:
