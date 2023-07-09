@@ -72,13 +72,13 @@ jobs:
             - name: Initialize submodules
               run: git submodule update --init --recursive
             
+            - name: Remove ONA miscellaneous
+              run: rm ona/*.py && rm -r ona/misc
+
             - name: Set up Python ${{ env.STABLE_PYTHON_VERSION }}
               uses: actions/setup-python@v4
               with:
                   python-version: ${{ env.STABLE_PYTHON_VERSION }}
-
-            - name: Remove ONA miscellaneous
-              run: rm ona/*.py && rm -r ona/misc
 
 #            - name: Install GCC
 #              if: matrix.job.os == 'ubuntu-22.04'
@@ -87,13 +87,13 @@ jobs:
 #                  version: latest
 #                  platform: ${{ startsWith(matrix.job.target, 'x86_64-') && 'x64' || startsWith(matrix.job.target, 'aarch64-') && 'aarch64' || 'x86' }}
 
-            - name: Install GCC
-              uses: rlalik/setup-cpp-compiler@master
-              with:
-                  compiler: gcc-12
+#            - name: Install GCC
+#              uses: rlalik/setup-cpp-compiler@master
+#              with:
+#                  compiler: gcc-12
 
-            - name: Install Hatch
-              run: pip install -U hatch
+#            - name: Install Hatch
+#              run: pip install -U hatch
 
             - name: Set up cross compiling
               if: matrix.job.cross
@@ -105,34 +105,34 @@ jobs:
               if: matrix.job.cross
               run: echo "CARGO=cross" >> $GITHUB_ENV
 
-            - name: Show toolchain information
-              run: |-
-                  gcc --version
-                  hatch --version
+#            - name: Show toolchain information
+#              run: |-
+#                  gcc --version
+#                  hatch --version
 
-            - name: Build ONA
-              run: ./build_ona.sh
+#            - name: Build ONA
+#              run: ./build_ona.sh
             
-#            - name: Build wheels
-#              uses: pypa/cibuildwheel@v2.11.4
-#              env:
-#                  CIBW_ARCHS_MACOS: x86_64
-#                  HATCH_BUILD_HOOKS_ENABLE: 'true'
+            - name: Build wheels
+              uses: pypa/cibuildwheel@v2.11.4
+              env:
+                  CIBW_ARCHS_MACOS: x86_64
+                  HATCH_BUILD_HOOKS_ENABLE: 'true'
             
-            - name: Build
-              run: hatch -v build --target wheel
+#            - name: Build
+#              run: hatch -v build --target wheel
+#
+#            - uses: actions/upload-artifact@v3
+#              with:
+#                  name: artifacts
+#                  path: dist/*.whl
+#                  if-no-files-found: error
 
             - uses: actions/upload-artifact@v3
               with:
                   name: artifacts
-                  path: dist/*.whl
+                  path: wheelhouse/*.whl
                   if-no-files-found: error
-            
-#            - uses: actions/upload-artifact@v3
-#              with:
-#                  name: artifacts
-#                  path: wheelhouse/*.whl
-#                  if-no-files-found: error
 
     pure-python-wheel-and-sdist:
         name: Build a pure Python wheel and source distribution
@@ -168,7 +168,7 @@ jobs:
         if: >
             github.event_name == 'push'
             &&
-            (github.ref == 'refs/heads/master' || startsWith(github.event.ref, 'refs/tags'))
+            (github.ref == 'refs/heads/main' || startsWith(github.event.ref, 'refs/tags'))
 
         steps:
             - uses: actions/checkout@v3
