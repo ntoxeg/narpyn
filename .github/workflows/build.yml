@@ -76,10 +76,14 @@ jobs:
               run: rm -r ona/misc
 
             - name: Install GCC
+              if: matrix.job.os == "ubuntu-22.04"
               uses: egor-tensin/setup-gcc@v1
               with:
                   version: latest
-                  platform: ${{ matrix.job.target }}
+                  platform: ${{ startsWith(matrix.job.target, 'x86_64-') && 'x64' || startsWith(matrix.job.target, 'aarch64-') && 'aarch64' || 'i686' }}
+
+            - name: Install Hatch
+              run: pip install -U hatch
 
             - name: Set up cross compiling
               if: matrix.job.cross
@@ -96,9 +100,6 @@ jobs:
                   gcc --version
                   hatch --version
 
-            - name: Install Hatch
-              run: pip install -U hatch
-            
             - name: Build wheels
               uses: pypa/cibuildwheel@v2.11.4
               env:
@@ -207,12 +208,12 @@ jobs:
                   user: __token__
                   password: ${{ secrets.PYPI_API_TOKEN }}
 
-            - uses: actions/download-artifact@v3
-              with:
-                  name: binaries
-                  path: bin
+#            - uses: actions/download-artifact@v3
+#              with:
+#                  name: binaries
+#                  path: bin
 
-            - name: Add binary assets to current release
-              uses: softprops/action-gh-release@v1
-              with:
-                  files: bin/*
+#            - name: Add binary assets to current release
+#              uses: softprops/action-gh-release@v1
+#              with:
+#                  files: bin/*
