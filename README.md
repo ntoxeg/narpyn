@@ -2,7 +2,7 @@
 
 > A Python API library for NARS
 
-<div style="margin: 0 auto">
+<div align="center">
 
 <img src="https://raw.githubusercontent.com/ntoxeg/narpyn/main/logo.png" alt="NARpyn logo" width="500" role="img">
 
