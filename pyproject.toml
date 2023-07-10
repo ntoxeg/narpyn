@@ -43,15 +43,21 @@ artifacts = [
 exclude = [
   "/.github",
   "/ona/misc",
+  "/ona/*.py",
 ]
 
 [tool.hatch.build.targets.wheel]
 pure_python = false
+exclude = [
+  "/ona/misc",
+  "/ona/*.py",
+  "/tests",
+]
 
 [tool.hatch.build.targets.wheel.hooks.autorun]
 dependencies = ["hatch-autorun"]
 code = """
-os.environ["NARS_HOME"] = os.path.dirname(os.path.abspath(__file__))
+os.environ["NARS_HOME"] = os.path.dirname(os.path.abspath(__file__)) + "/ona"
 """
 
 [tool.hatch.build.targets.wheel.hooks.mypyc]
@@ -61,9 +67,6 @@ require-runtime-dependencies = true
 mypy-args = [
   "--no-warn-unused-ignores",
 ]
-#[tool.hatch.build.targets.wheel.hooks.custom]
-#path = "hatch_build.py"
-#ona_dir = "ona"
 
 [tool.ruff.isort]
 known-first-party = ["narpyn"]
