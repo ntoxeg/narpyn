@@ -1,7 +1,7 @@
 import logging
 import subprocess
 
-from .narsese import *
+from narpyn.ona.narsese import *
 
 logger = logging.getLogger(__name__)
 

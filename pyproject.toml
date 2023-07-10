@@ -75,6 +75,9 @@ require-runtime-dependencies = true
 mypy-args = [
   "--no-warn-unused-ignores",
 ]
+exclude = [
+  "/narpyn/ona/NAR"
+]
 
 [tool.ruff.isort]
 known-first-party = ["narpyn"]
