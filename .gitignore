@@ -1,6 +1,8 @@
 *.swp
 *.pyc
 *.py~
+*.so
+*.dll
 .cache
 .pytest_cache/
 .last_checked

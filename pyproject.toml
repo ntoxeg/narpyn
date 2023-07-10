@@ -64,7 +64,7 @@ exclude = [
 [tool.hatch.build.targets.wheel]
 pure_python = false
 exclude = [
-  "/ona/*",
+  "/ona",
   "/tests",
 ]
 
