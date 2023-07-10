@@ -33,35 +33,12 @@ env:
 
 jobs:
     binary-wheels-standard:
-        name: Binary wheels for ${{ startsWith(matrix.job.os, 'macos-') && 'macOS' || startsWith(matrix.job.os, 'windows-') && 'Windows' || 'Linux' }}
-        runs-on: ${{ matrix.job.os }}
+        name: Binary wheels for ${{ startsWith(matrix.os, 'macos-') && 'macOS' || startsWith(matrix.os, 'windows-') && 'Windows' || 'Linux' }}
+        runs-on: ${{ matrix.os }}
         strategy:
             fail-fast: false
             matrix:
-                job:
-                # Linux
-                - target: x86_64-unknown-linux-gnu
-                  os: ubuntu-22.04
-                  cross: true
-                - target: x86_64-unknown-linux-musl
-                  os: ubuntu-22.04
-                  cross: true
-                - target: aarch64-unknown-linux-gnu
-                  os: ubuntu-22.04
-                  cross: true
-                - target: i686-unknown-linux-gnu
-                  os: ubuntu-22.04
-                  cross: true
-                # Windows
-                #                    - target: x86_64-pc-windows-msvc
-                #                      os: windows-2022
-                #                    - target: i686-pc-windows-msvc
-                #                      os: windows-2022
-                # macOS
-                - target: aarch64-apple-darwin
-                  os: macos-12
-                - target: x86_64-apple-darwin
-                  os: macos-12
+                os: [ubuntu-latest, macos-latest]
 
         steps:
             - uses: actions/checkout@v3
@@ -80,44 +57,12 @@ jobs:
               with:
                   python-version: ${{ env.STABLE_PYTHON_VERSION }}
 
-#            - name: Install GCC
-#              if: matrix.job.os == 'ubuntu-22.04'
-#              uses: egor-tensin/setup-gcc@v1
-#              with:
-#                  version: latest
-#                  platform: ${{ startsWith(matrix.job.target, 'x86_64-') && 'x64' || startsWith(matrix.job.target, 'aarch64-') && 'aarch64' || 'x86' }}
-
-#            - name: Install GCC
-#              uses: rlalik/setup-cpp-compiler@master
-#              with:
-#                  compiler: gcc-12
-
-#            - name: Install Hatch
-#              run: pip install -U hatch
-
-#            - name: Show toolchain information
-#              run: |-
-#                  gcc --version
-#                  hatch --version
-
-#            - name: Build ONA
-#              run: ./build_ona.sh
-            
             - name: Build wheels
               uses: pypa/cibuildwheel@v2.11.4
               env:
                   CIBW_ARCHS_MACOS: x86_64
                   HATCH_BUILD_HOOKS_ENABLE: 'true'
             
-#            - name: Build
-#              run: hatch -v build --target wheel
-#
-#            - uses: actions/upload-artifact@v3
-#              with:
-#                  name: artifacts
-#                  path: dist/*.whl
-#                  if-no-files-found: error
-
             - uses: actions/upload-artifact@v3
               with:
                   name: artifacts
