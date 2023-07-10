@@ -73,7 +73,7 @@ def test_parse_task():
         "occurrenceTime": "3",
         "punctuation": "!",
         "term": "task",
-        'truth': {'frequency': 0.7, 'confidence': 0.89},
+        "truth": {"frequency": 0.7, "confidence": 0.89},
     }
     assert parse_task(
         "task! occurrenceTime=eternal Priority=1.0 Truth: f=0.5 c=0.9"

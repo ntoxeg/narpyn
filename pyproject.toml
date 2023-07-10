@@ -20,10 +20,25 @@ ipython = "^8.14.0"
 name = "narpyn"
 dynamic = ["version"]
 description = "A Python API library for NARS"
+keywords = [
+  "nars",
+  "ai",
+]
 authors = [{name = "Adrian Borucki", email = "ab@synthillect.ai"}]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: Implementation :: CPython",
+]
 license = "Apache-2.0"
 readme = "README.md"
 requires-python = ">=3.10"
+
+#[project.scripts]
+#NAR = "NAR:NAR"
 
 [build-system]
 requires = ["hatchling>=1.17.0", "hatch-vcs"]
@@ -57,7 +72,7 @@ exclude = [
 [tool.hatch.build.targets.wheel.hooks.autorun]
 dependencies = ["hatch-autorun"]
 code = """
-os.environ["NARS_HOME"] = os.path.dirname(os.path.abspath(__file__)) + "/ona"
+from pathlib import Path; os.environ["NARS_HOME"] = (Path(sys.path[0]) / ".." / "lib" / f"python{sys.version_info.major}.{sys.version_info.minor}" / "site-packages" / "ona").as_posix()
 """
 
 [tool.hatch.build.targets.wheel.hooks.mypyc]

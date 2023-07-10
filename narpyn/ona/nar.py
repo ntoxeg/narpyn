@@ -1,5 +1,7 @@
 import logging
+import os
 import subprocess
+from pathlib import Path
 
 from .narsese import *
 
@@ -87,7 +89,7 @@ def expect_output(
 
 def setup_nars_ops(
     process: subprocess.Popen, ops: list[str], babblingops: Optional[int] = None
-):
+) -> None:
     """Setup NARS operations"""
     for i, op in enumerate(ops):
         send_input(process, f"*setopname {i+1} {op}")
@@ -104,7 +106,7 @@ def setup_nars(
     babblingops: Optional[int] = None,
     volume: Optional[int] = None,
     decision_threshold: Optional[float] = None,
-):
+) -> None:
     """Send NARS settings"""
     send_input(process, "*reset")
     setup_nars_ops(process, ops, babblingops=babblingops)
@@ -114,3 +116,32 @@ def setup_nars(
         send_input(process, f"*volume={volume}")
     if decision_threshold is not None:
         send_input(process, f"*decisionthreshold={decision_threshold}")
+
+
+def start_nars(
+    ops: list[str],
+    motor_babbling: Optional[float] = None,
+    babblingops: Optional[int] = None,
+    volume: Optional[int] = None,
+    decision_threshold: Optional[float] = None,
+) -> subprocess.Popen:
+    """Start an ONA process and set it up
+
+    Returns: process: subprocess.Popen: the object of the spawned subprocess.
+    """
+    # Start the ONA process
+    narspath = Path(os.environ["NARS_HOME"])
+    process_cmd = [
+        (narspath / "NAR").as_posix(),
+        "shell",
+    ]
+    process: subprocess.Popen = subprocess.Popen(
+        process_cmd,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        universal_newlines=True,
+    )
+
+    # Configure ONA and return the process
+    setup_nars(process, ops, motor_babbling, babblingops, volume, decision_threshold)
+    return process

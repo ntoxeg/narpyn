@@ -1,4 +1,4 @@
-from unittest.mock import Mock, patch, call
+from unittest.mock import Mock, call, patch
 
 from narpyn.ona.nar import (
     expect_output,
@@ -72,7 +72,10 @@ def test_get_output(mock_popen):
         "term": "^op1 ({SELF} * arg)",
     }
     assert len(output["executions"]) == 1
-    assert output["executions"][0] == {"operator": "^op1", "arguments": ["{SELF}", "arg"]}
+    assert output["executions"][0] == {
+        "operator": "^op1",
+        "arguments": ["{SELF}", "arg"],
+    }
     assert (
         output["raw"]
         == "Input: task1! :|: occurrenceTime=5\nDerived: task2! :|: occurrenceTime=5\nRevised: sent. :|: occurrenceTime=2\nAnswer: ^op1 ({SELF} * arg)! :|: occurrenceTime=5\n^op1 executed with args ({SELF} * arg)"
@@ -133,14 +136,22 @@ def test_setup_nars_ops(mock_popen):
     ops = ["op1", "op2"]
     setup_nars_ops(mock_popen(), ops)
     mock_stdin.write.assert_has_calls(
-        [call("*setopname 1 op1\n"), call("*setopname 2 op2\n"), call(f"*babblingops={len(ops)}\n")]
+        [
+            call("*setopname 1 op1\n"),
+            call("*setopname 2 op2\n"),
+            call(f"*babblingops={len(ops)}\n"),
+        ]
     )
     mock_stdin.flush.assert_has_calls([call()] * 3)
     send_input_calls = [call(mock_popen(), f"*babblingops={len(ops)}")]
     setup_nars_ops(mock_popen(), ops, babblingops=5)
     send_input_calls.append(call(mock_popen(), "*babblingops=5"))
     mock_stdin.write.assert_has_calls(
-        [call("*setopname 1 op1\n"), call("*setopname 2 op2\n"), call("*babblingops=5\n")]
+        [
+            call("*setopname 1 op1\n"),
+            call("*setopname 2 op2\n"),
+            call("*babblingops=5\n"),
+        ]
     )
     mock_stdin.flush.assert_has_calls([call()] * 3)
     assert mock_stdin.write.call_count == 6
