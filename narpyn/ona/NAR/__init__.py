@@ -4,7 +4,7 @@ import subprocess
 import sys
 from numbers import Number
 
-NARPKG_PATH = os.path.join(os.path.dirname(__file__), "NAR")
+NARPKG_PATH = os.path.dirname(__file__)
 
 
 def _program(name: str, args: list[str | Number]) -> int:

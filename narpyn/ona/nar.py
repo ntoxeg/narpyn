@@ -1,7 +1,5 @@
 import logging
-import os
 import subprocess
-from pathlib import Path
 
 from .narsese import *
 
@@ -130,9 +128,8 @@ def start_nars(
     Returns: process: subprocess.Popen: the object of the spawned subprocess.
     """
     # Start the ONA process
-    narspath = Path(os.environ["NARS_HOME"])
     process_cmd = [
-        (narspath / "NAR").as_posix(),
+        "NAR",
         "shell",
     ]
     process: subprocess.Popen = subprocess.Popen(
