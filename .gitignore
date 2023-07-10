@@ -82,3 +82,6 @@ ona_concept_import.txt
 
 # the lock file
 poetry.lock
+
+# ONA executable
+narpyn/ona/NAR/NARexe

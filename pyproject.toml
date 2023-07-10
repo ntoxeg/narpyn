@@ -37,8 +37,8 @@ license = "Apache-2.0"
 readme = "README.md"
 requires-python = ">=3.10"
 
-#[project.scripts]
-#NAR = "NAR:NAR"
+[project.scripts]
+NAR = "narpyn.ona.NAR:NAR"
 
 [build-system]
 requires = ["hatchling>=1.17.0", "hatch-vcs"]
@@ -51,7 +51,7 @@ source = "vcs"
 artifacts = [
     "*.so",
     "*.dll",
-    "/ona/NAR",
+    "/narpyn/ona/NAR/NARexe",
 ]
 
 [tool.hatch.build.targets.sdist]
@@ -64,16 +64,9 @@ exclude = [
 [tool.hatch.build.targets.wheel]
 pure_python = false
 exclude = [
-  "/ona/misc",
-  "/ona/*.py",
+  "/ona/*",
   "/tests",
 ]
-
-[tool.hatch.build.targets.wheel.hooks.autorun]
-dependencies = ["hatch-autorun"]
-code = """
-from pathlib import Path; os.environ["NARS_HOME"] = (Path(sys.path[0]) / ".." / "lib" / f"python{sys.version_info.major}.{sys.version_info.minor}" / "site-packages" / "ona").as_posix()
-"""
 
 [tool.hatch.build.targets.wheel.hooks.mypyc]
 enable-by-default = false
