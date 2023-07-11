@@ -13,7 +13,7 @@ cov-report = [
   "coverage report --show-missing",
   "coverage json",
 ]
-cov-badge = "coverage-badge -fo coverage.svg"
+cov-badge = "coverage-badge -fo coverage/coverage.svg"
 cov = [
   "test-cov",
   "cov-report",
