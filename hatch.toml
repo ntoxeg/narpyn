@@ -2,6 +2,7 @@
 dependencies = [
   "coverage[toml]>=6.5",
   "pytest",
+  "coverage-badge",
 ]
 
 [envs.default.scripts]
@@ -11,6 +12,7 @@ cov-report = [
   "- coverage combine",
   "coverage report --show-missing",
 ]
+cov-badge = "coverage-badge -fo coverage.svg"
 cov = [
   "test-cov",
   "cov-report",
