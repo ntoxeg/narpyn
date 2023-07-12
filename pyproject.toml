@@ -37,15 +37,15 @@ classifiers = [
 license = "Apache-2.0"
 readme = "README.md"
 requires-python = ">=3.10"
+dependencies = [
+  "ona>=0.9.2",
+]
 
 [project.urls]
 Homepage = "https://ntoxeg.github.io/narpyn/"
 Sponsor = "https://github.com/sponsors/ntoxeg"
 Tracker = "https://github.com/ntoxeg/narpyn/issues"
 Source = "https://github.com/ntoxeg/narpyn"
-
-[project.scripts]
-NAR = "narpyn.ona.NAR:NAR"
 
 [build-system]
 requires = ["hatchling>=1.17.0", "hatch-vcs", "hatch-build-scripts"]
@@ -57,35 +57,12 @@ source = "vcs"
 [tool.hatch.build.targets.sdist]
 exclude = [
   "/.github",
-  "/ona/misc",
-  "/ona/*.py",
 ]
 
 [tool.hatch.build.targets.wheel]
-pure_python = false
 exclude = [
-  "/ona",
   "/tests",
 ]
-
-[[tool.hatch.build.hooks.build-scripts.scripts]]
-commands = [
-  "./build.sh",
-  "mv NAR NARexe",
-]
-work_dir = "ona"
-out_dir = "narpyn/ona/NAR"
-artifacts = [
-  "NARexe",
-  "*.so",
-  "*.dll",
-]
-
-[[tool.hatch.build.hooks.build-scripts.scripts]]
-commands = [
-  "chmod +x narpyn/ona/NAR/NARexe",
-]
-artifacts = ["narpyn/ona/NAR/NARexe"]
 
 [tool.hatch.build.targets.wheel.hooks.mypyc]
 enable-by-default = false
@@ -93,9 +70,6 @@ dependencies = ["hatch-mypyc>=0.14.1"]
 require-runtime-dependencies = true
 mypy-args = [
   "--no-warn-unused-ignores",
-]
-exclude = [
-  "/narpyn/ona/NAR"
 ]
 
 [tool.ruff.isort]
@@ -119,3 +93,6 @@ exclude_lines = [
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:",
 ]
+
+[tool.isort]
+profile = "black"

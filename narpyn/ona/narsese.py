@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from typing import Any, Callable, Optional
 
 
-def narsify(observation):
+def gym_narsify(observation):
     """Convert a Gym observation to NARS input"""
-    return ",".join(str(x) for x in observation)
+    return "_".join(str(x) for x in observation)
 
 
 def loc(pos: tuple[int, int]) -> str:
@@ -36,6 +36,7 @@ def nal_now(s: str) -> str:
 
 
 def parse_truth_value(tv_str: str) -> dict[str, float]:
+    """Parse a Truth Value into a dictionary"""
     splits = tv_str.split(" ")
     freq_s, conf_s = splits[0], splits[1]
     if freq_s[-1] == ",":
@@ -50,6 +51,7 @@ def parse_truth_value(tv_str: str) -> dict[str, float]:
 
 
 def parse_task(s: str) -> dict[str, Any]:
+    """Parse information about a task seen by the system"""
     m: dict[str, Any] = {"occurrenceTime": "eternal"}
     if " :|:" in s:
         m["occurrenceTime"] = "now"
@@ -73,6 +75,7 @@ def parse_task(s: str) -> dict[str, Any]:
 
 
 def parse_reason(sraw: str) -> Optional[dict[str, str]]:
+    """Parse ONA's justification for an action taken"""
     if "implication: " not in sraw:
         return None
     implication = parse_task(
@@ -89,6 +92,7 @@ def parse_reason(sraw: str) -> Optional[dict[str, str]]:
 
 
 def parse_execution(e: str) -> dict[str, Any]:
+    """Parse information about an operator executed"""
     op = e.split(" ")[0]
     argstr = e.split("args ")[1] if "args " in e else None
     if argstr is None:
@@ -101,7 +105,7 @@ def parse_execution(e: str) -> dict[str, Any]:
 
 @dataclass
 class Goal:
-    """A goal"""
+    """A simple goal representation"""
 
     symbol: str
     satisfied: Callable

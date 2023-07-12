@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 def send_input(process: subprocess.Popen, input_: str) -> None:
-    """Send input to NARS server"""
+    """Send input to ONA"""
     stdin, stdout = process.stdin, process.stdout
     if stdin is None or stdout is None:
         raise RuntimeError("Process has no stdin or stdout.")
@@ -17,7 +17,7 @@ def send_input(process: subprocess.Popen, input_: str) -> None:
 
 
 def get_raw_output(process: subprocess.Popen) -> list[str]:
-    """Get raw output from NARS server"""
+    """Get raw output from ONA"""
     stdin, stdout = process.stdin, process.stdout
     if stdin is None or stdout is None:
         raise RuntimeError("Process has no stdin or stdout.")
@@ -35,6 +35,7 @@ def get_raw_output(process: subprocess.Popen) -> list[str]:
 
 
 def get_output(process: subprocess.Popen) -> dict[str, Any]:
+    """Get last output from ONA and parse it"""
     lines = get_raw_output(process)
     executions = [parse_execution(l) for l in lines if l.startswith("^")]
     inputs = [

@@ -1,10 +1,10 @@
 from narpyn.ona.narsese import (
     Goal,
     ext,
+    gym_narsify,
     loc,
     nal_demand,
     nal_now,
-    narsify,
     parse_execution,
     parse_reason,
     parse_task,
@@ -15,9 +15,9 @@ from narpyn.ona.narsese import (
 
 # Test narsify function
 def test_narsify():
-    assert narsify([1, 2, 3]) == "1,2,3"
-    assert narsify(["a", "b", "c"]) == "a,b,c"
-    assert narsify([]) == ""
+    assert gym_narsify([1, 2, 3]) == "1_2_3"
+    assert gym_narsify(["a", "b", "c"]) == "a_b_c"
+    assert gym_narsify([]) == ""
 
 
 # Test loc function
