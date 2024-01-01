@@ -86,7 +86,7 @@ jobs:
               run: pip install --upgrade hatch
             
             - name: Download coverage data
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v4
               with:
                   name: coverage-data
                 
