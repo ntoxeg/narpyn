@@ -55,7 +55,7 @@ jobs:
                   python-version: ${{ env.STABLE_PYTHON_VERSION }}
 
             - name: Build wheels
-              uses: pypa/cibuildwheel@v2.16.2
+              uses: pypa/cibuildwheel@v2.16.5
               env:
                   CIBW_ARCHS_MACOS: x86_64
                   HATCH_BUILD_HOOKS_ENABLE: 'true'
@@ -114,7 +114,7 @@ jobs:
                   platforms: arm64
 
             - name: Build wheels
-              uses: pypa/cibuildwheel@v2.16.2
+              uses: pypa/cibuildwheel@v2.16.5
               env:
                   CIBW_ARCHS_LINUX: aarch64
                   HATCH_BUILD_HOOKS_ENABLE: 'true'
